@@ -4,7 +4,7 @@ import kotlin.NotImplementedError;
 import kotlin.Pair;
 
 @SuppressWarnings("unused")
-public class JavaAlgorithms {
+public class  JavaAlgorithms {
     /**
      * Получение наибольшей прибыли (она же -- поиск максимального подмассива)
      * Простая
@@ -82,8 +82,16 @@ public class JavaAlgorithms {
      * Общий комментарий: решение из Википедии для этой задачи принимается,
      * но приветствуется попытка решить её самостоятельно.
      */
+    // Трудоёмкость: O(1)
+    // Ресурсоёмкость: O()
     static public int josephTask(int menNumber, int choiceInterval) {
-        throw new NotImplementedError();
+        if (menNumber == 0) {
+            return 0;
+        }
+        int lastMan = 0;
+        for (int i = 0; i < menNumber; i++)
+            lastMan = (lastMan + choiceInterval) % (i + 1);
+        return lastMan + 1;
     }
 
     /**
@@ -97,8 +105,34 @@ public class JavaAlgorithms {
      * Если имеется несколько самых длинных общих подстрок одной длины,
      * вернуть ту из них, которая встречается раньше в строке first.
      */
-    static public String longestCommonSubstring(String firs, String second) {
-        throw new NotImplementedError();
+    // Трудоёмкость: O(kn), k - кол-во букв в первом слове, n - кол-во букв во втором слове
+    // Ресурсоёмкость: O(kn)
+    static public String longestCommonSubstring(String first, String second) {
+        if (first == null || second == null || first.length() == 0 || second.length() == 0) {
+            return "";
+        };
+
+        int table[][] = new int[first.length()][second.length()];
+
+        int maxLength = 0;
+        int substringEnd = 0;
+
+        for (int i = 0; i < first.length(); i++) {
+            for (int j = 0; j < second.length(); j++) {
+                if (first.charAt(i) == second.charAt(j)) {
+                    if (i != 0 && j != 0) {
+                        table[i][j] = table[i - 1][j - 1] +1;
+                    } else {
+                        table[i][j] = 1;
+                    }
+                    if (table[i][j] > maxLength) {
+                        maxLength = table[i][j];
+                        substringEnd = i;
+                    }
+                }
+            }
+        }
+        return(first.substring(substringEnd - maxLength + 1, substringEnd + 1));
     }
 
     /**

@@ -71,6 +71,7 @@ abstract class AbstractAlgorithmsTests {
             assertEquals(1, josephTask(menNumber, 2))
             menNumber *= 2
         }
+        assertEquals(0, josephTask(0, 1))
     }
 
     fun longestCommonSubstring(longestCommonSubstring: (String, String) -> String) {
@@ -120,6 +121,9 @@ abstract class AbstractAlgorithmsTests {
                 File("input/ruslan_ludmila_2.txt").readText()
             ).trim()
         )
+        assertEquals("", longestCommonSubstring("", ""))
+        assertEquals("Программирование", longestCommonSubstring("Программирование", "Программирование"))
+        assertEquals(" с пробелом", longestCommonSubstring("текст с пробелом", "строка с пробелом"))
     }
 
     fun calcPrimesNumber(calcPrimesNumber: (Int) -> Int) {

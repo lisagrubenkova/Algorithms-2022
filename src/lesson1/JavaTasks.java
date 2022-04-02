@@ -2,6 +2,14 @@ package lesson1;
 
 import kotlin.NotImplementedError;
 
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
 @SuppressWarnings("unused")
 public class JavaTasks {
     /**
@@ -98,8 +106,35 @@ public class JavaTasks {
      * 99.5
      * 121.3
      */
-    static public void sortTemperatures(String inputName, String outputName) {
-        throw new NotImplementedError();
+    // Трудоёмкость: O(n)
+    // Ресурсоёмкость: O(n)
+    static public void sortTemperatures(String inputName, String outputName) throws FileNotFoundException {
+        File file = new File(inputName);
+
+        ArrayList<String> temperatures = new ArrayList<String>();;
+
+        Scanner scanner = new Scanner(file);
+        while (scanner.hasNextLine()) {
+            temperatures.add(scanner.nextLine());
+        }
+        scanner.close();
+
+        int[] sortedTemperatures = new int[temperatures.size()];
+
+        for (int i = 0; i < temperatures.size(); i++) {
+            sortedTemperatures[i] = (int) (Double.parseDouble(temperatures.get(i)) * 10);
+        }
+
+        Sorts.quickSort(sortedTemperatures);
+
+        File file1 = new File(outputName);
+        PrintWriter output = new PrintWriter(file1);
+
+        for (int i = 0; i < sortedTemperatures.length; i++) {
+            output.println((double) sortedTemperatures[i] / 10);
+        }
+
+        output.close();
     }
 
     /**
@@ -131,8 +166,53 @@ public class JavaTasks {
      * 2
      * 2
      */
-    static public void sortSequence(String inputName, String outputName) {
-        throw new NotImplementedError();
+    // Трудоёмкость: O(n)
+    // Ресурсоёмкость: O(n)
+    static public void sortSequence(String inputName, String outputName) throws IOException {
+        int number = 0;
+        int maxCount = 0;
+
+        Map<Integer, Integer> repeats = new HashMap<Integer, Integer>();
+        int[] numbers = Files.lines(Paths.get(inputName)).mapToInt(Integer::parseInt).toArray();
+
+        for (int i = 0; i < numbers.length; i++) {
+            if (repeats.containsKey(numbers[i])) {
+                repeats.put(numbers[i], repeats.get(numbers[i]) + 1);
+            } else {
+                repeats.put(numbers[i], 1);
+            }
+        }
+        for(Map.Entry<Integer, Integer> val : repeats.entrySet())
+        {
+            if (maxCount < val.getValue())
+            {
+                number = val.getKey();
+                maxCount = val.getValue();
+            }
+            if (maxCount == val.getValue() && number > val.getKey()) {
+                number = val.getKey();
+            }
+        }
+
+        int j = 0;
+
+        for (int i = 0; i < numbers.length; i++) {
+            if (numbers[i] != number) {
+                int temp = numbers[j];
+                numbers[j] = numbers[i];
+                numbers[i] = temp;
+                j++;
+            }
+        }
+
+        File file = new File(outputName);
+        PrintWriter output = new PrintWriter(file);
+
+        for (int i = 0; i < numbers.length; i++) {
+            output.println(numbers[i]);
+        }
+
+        output.close();
     }
 
     /**
