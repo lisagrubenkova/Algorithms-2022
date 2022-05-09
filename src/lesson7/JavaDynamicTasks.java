@@ -9,14 +9,9 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class JavaDynamicTasks {
 
-    static List<Integer> answer = new ArrayList<>();
-    static int[] arrayOfLength;
-    static int[] arrayOfIndex;
-    static int pos = 0;
     /**
      * Наибольшая общая подпоследовательность.
      * Средняя
-     * <p>
      * Дано две строки, например "nematode knowledge" и "empty bottle".
      * Найти их самую длинную общую подпоследовательность -- в примере это "emt ole".
      * Подпоследовательность отличается от подстроки тем, что её символы не обязаны идти подряд
