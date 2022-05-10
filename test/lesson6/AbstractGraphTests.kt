@@ -195,6 +195,13 @@ abstract class AbstractGraphTests {
             setOf(simpleGraph["A"]),
             simpleGraph.largestIndependentVertexSet()
         )
+        val oneVertexGraph = GraphBuilder().apply {
+            addVertex("A")
+        }.build()
+        assertEquals(
+            setOf(oneVertexGraph["A"]),
+            oneVertexGraph.largestIndependentVertexSet()
+        )
         val noEdgeGraph = GraphBuilder().apply {
             addVertex("A")
             addVertex("B")
@@ -258,6 +265,18 @@ abstract class AbstractGraphTests {
             setOf(cross["A"], cross["B"], cross["C"], cross["D"]),
             cross.largestIndependentVertexSet()
         )
+        val all = GraphBuilder().apply {
+            val a = addVertex("A")
+            val b = addVertex("B")
+            val c = addVertex("C")
+            val d = addVertex("D")
+            val e = addVertex("E")
+            val f = addVertex("F")
+        }.build()
+        assertEquals(
+            setOf(all["A"], all["B"], all["C"], all["D"], all["E"], all["F"]),
+            all.largestIndependentVertexSet()
+        )
     }
 
     fun longestSimplePath(longestSimplePath: Graph.() -> Path) {
@@ -271,6 +290,12 @@ abstract class AbstractGraphTests {
         }.build()
         val longestNoEdgePath = noEdgeGraph.longestSimplePath()
         assertEquals(0, longestNoEdgePath.length)
+
+        val oneVertexGraph = GraphBuilder().apply {
+            addVertex("A")
+        }.build()
+        val longestOneVertexPath = oneVertexGraph.longestSimplePath()
+        assertEquals(0, longestOneVertexPath.length)
 
         val unconnected = GraphBuilder().apply {
             val a = addVertex("A")
@@ -351,6 +376,23 @@ abstract class AbstractGraphTests {
         }.build()
         val longestPath3 = graph3.longestSimplePath()
         assertEquals(6, longestPath3.length)
+        val all = GraphBuilder().apply {
+            val a = addVertex("A")
+            val b = addVertex("B")
+            val c = addVertex("C")
+            val d = addVertex("D")
+            val e = addVertex("E")
+            val f = addVertex("F")
+            addConnection(a, b)
+            addConnection(a, d)
+            addConnection(a, e)
+            addConnection(e, b)
+            addConnection(d, c)
+            addConnection(b, c)
+            addConnection(e, f)
+        }.build()
+        val allLongestPath = all.longestSimplePath()
+        assertEquals(5, allLongestPath.length)
     }
 
     fun baldaSearcher(baldaSearcher: (String, Set<String>) -> Set<String>) {
